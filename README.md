@@ -4,16 +4,7 @@ Type @ in insert mode to fuzzy-pick and insert a file path
 
 Type `@` in insert mode → the dropdown lists files in your project. Keep typing to fuzzy-narrow. Accept → the `@query` is replaced with the file's path.
 
-```
-// edit a comment, a markdown file, a commit message...
-//
-// see also: @conf
-                  ┌─────────────────────────────┐
-                  │  src/config/index.ts        │ ← fuzzy-matched against the full path
-                  │  src/config/defaults.ts     │
-                  │  config/app.config.json     │
-                  └─────────────────────────────┘
-```
+![demo](./demo.gif)
 
 ---
 
