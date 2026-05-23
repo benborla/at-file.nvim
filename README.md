@@ -1,4 +1,4 @@
-# blink-cmp-at-file.nvim
+# at-file.nvim
 
 Type @ in insert mode to fuzzy-pick and insert a file path
 
