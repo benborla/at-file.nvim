@@ -4,7 +4,8 @@ Type @ in insert mode to fuzzy-pick and insert a file path
 
 Type `@` in insert mode → the dropdown lists files in your project. Keep typing to fuzzy-narrow. Accept → the `@query` is replaced with the file's path.
 
-<video src="./demo.webm" controls width="600"></video>
+[demo.webm](https://github.com/user-attachments/assets/9e8f8eb3-fa14-486a-8d05-5fbc5772c2df)
+
 
 ---
 
