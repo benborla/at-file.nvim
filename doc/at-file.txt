@@ -1,0 +1,101 @@
+*at-file.txt*  @-triggered file path completion source for blink.cmp
+
+==============================================================================
+CONTENTS                                                     *at-file-contents*
+
+  1. Introduction ..................... |at-file-intro|
+  2. Requirements ..................... |at-file-requirements|
+  3. Setup ............................ |at-file-setup|
+  4. Configuration .................... |at-file-config|
+  5. License .......................... |at-file-license|
+
+==============================================================================
+1. INTRODUCTION                                                 *at-file-intro*
+
+at-file.nvim is a blink.cmp source. Typing the trigger character (default `@`)
+in insert mode opens the native completion popup with a fuzzy-searchable list
+of files in the current project. Selecting an item replaces the `@<query>`
+range with the file's relative path.
+
+==============================================================================
+2. REQUIREMENTS                                          *at-file-requirements*
+
+  - Neovim 0.10+
+  - blink.cmp (https://github.com/Saghen/blink.cmp)
+  - One of: fd, ripgrep, or git (for enumerating files)
+
+==============================================================================
+3. SETUP                                                        *at-file-setup*
+
+Register at-file as a blink.cmp provider. With lazy.nvim:
+>lua
+    {
+      "saghen/blink.cmp",
+      dependencies = { "benborla/at-file.nvim" },
+      opts = {
+        sources = {
+          default = { "lsp", "path", "snippets", "buffer", "at_file" },
+          providers = {
+            at_file = {
+              name = "AtFile",
+              module = "at-file",
+              score_offset = 100,
+              opts = {},
+            },
+          },
+        },
+      },
+    }
+<
+
+==============================================================================
+4. CONFIGURATION                                               *at-file-config*
+
+All options are passed under `providers.at_file.opts`.
+
+                                                            *at-file-opt-trigger*
+trigger ~
+    Type: |string|   Default: "@"
+    Single character that opens the dropdown.
+
+                                                     *at-file-opt-insert_format*
+insert_format ~
+    Type: |string|   Default: "relative"
+    One of:
+      - "relative"  Replace `@query` with the project-relative path.
+      - "absolute"  Replace with the absolute path.
+      - "prefixed"  Replace with `@<relative-path>` (keeps the trigger char).
+
+                                                              *at-file-opt-root*
+root ~
+    Type: |string| or |function|   Default: "auto"
+    One of:
+      - "auto"      LazyVim root → git root → cwd.
+      - "git"       git root → cwd.
+      - "cwd"       Always Neovim's cwd.
+      - function(bufnr): return your own root string.
+
+                                                       *at-file-opt-max_entries*
+max_entries ~
+    Type: |number|   Default: 10000
+    Cap on returned file count.
+
+                                                      *at-file-opt-cache_ttl_ms*
+cache_ttl_ms ~
+    Type: |number|   Default: 5000
+    File list cache lifetime in milliseconds. The cache is also cleared on
+    |BufWritePost| and |DirChanged|.
+
+                                                        *at-file-opt-enumerator*
+enumerator ~
+    Type: |function| or |nil|   Default: nil
+    Optional override: function(root) -> list of paths. Paths may be relative
+    to `root` or absolute — both are handled. When nil, the source tries
+    `fd`, then `rg`, then `git ls-files`.
+
+==============================================================================
+5. LICENSE                                                    *at-file-license*
+
+MIT. See the LICENSE file in the repository.
+
+vim:tw=78:ts=8:ft=help:norl:
